@@ -89,47 +89,106 @@
         .map-section-box { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; text-align: center; margin-bottom: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); cursor: pointer; }
         .map-section-box img { max-width: 100%; height: auto; max-height: 450px; border-radius: 6px; display: block; margin: 0 auto 15px auto; }
         
+        /* --- NOVO DESIGN DO MODAL COM SLIDER/NAVEGAÇÃO --- */
         .modal {
             display: none;
             position: fixed;
             z-index: 9999;
-            padding-top: 40px;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.9);
+            background-color: rgba(0, 0, 0, 0.95);
+            user-select: none;
         }
+        
+        .modal-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
         .modal-content {
-            margin: auto;
-            display: block;
-            width: auto;
-            max-width: 90%;
+            max-width: 92%;
             max-height: 85vh;
             object-fit: contain;
             border-radius: 4px;
             animation: zoom 0.2s;
         }
+        
         @keyframes zoom {
-            from {transform:scale(0.9)} 
-            to {transform:scale(1)}
+            from { transform: scale(0.95); opacity: 0; } 
+            to { transform: scale(1); opacity: 1; }
         }
+        
         .close-modal {
             position: absolute;
             top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
+            right: 25px;
+            color: #fff;
+            font-size: 35px;
             font-weight: bold;
             cursor: pointer;
+            z-index: 10000;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+        
+        /* Setas de Navegação (Esquerda e Direita) */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: background 0.2s;
+        }
+        .nav-btn:hover { background: rgba(255, 255, 255, 0.3); }
+        .prev-btn { left: 20px; }
+        .next-btn { right: 20px; }
+        
+        /* Contador de Fotos (ex: 3 / 22) */
+        .photo-counter {
+            position: absolute;
+            bottom: 20px;
+            color: white;
+            font-size: 1rem;
+            background: rgba(0,0,0,0.6);
+            padding: 6px 16px;
+            border-radius: 20px;
+            z-index: 10000;
         }
         
         .cta-section { background: linear-gradient(135deg, #1a365d 0%, #2a4365 100%); color: white; text-align: center; padding: 40px 20px; border-radius: 8px; margin-bottom: 40px; }
         .whatsapp-btn { display: inline-flex; align-items: center; background-color: var(--success); color: white; text-decoration: none; padding: 16px 32px; font-size: 1.2rem; font-weight: bold; border-radius: 50px; box-shadow: 0 10px 15px -3px rgba(37, 211, 102, 0.4); transition: transform 0.2s; }
         .whatsapp-btn:hover { transform: scale(1.02); }
         footer { text-align: center; padding: 40px 20px; color: var(--text-light); font-size: 0.9rem; border-top: 1px solid #e2e8f0; }
-        @media (max-width: 600px) { header h1 { font-size: 1.6rem; } .price-tag { font-size: 1.4rem; } .whatsapp-btn { width: 100%; justify-content: center; } .close-modal { right: 20px; top: 10px; } .gallery-item.horizontal { grid-column: auto; } }
+        
+        @media (max-width: 768px) { 
+            header h1 { font-size: 1.6rem; } 
+            .price-tag { font-size: 1.4rem; } 
+            .nav-btn { display: none; } /* Oculta setas no celular para focar no arrastar de dedos */
+            .close-modal { right: 15px; top: 15px; }
+            .gallery-item.horizontal { grid-column: auto; }
+        }
     </style>
 </head>
 <body>
@@ -158,7 +217,7 @@ O imóvel está localizado na Viela Pe. Cícero, no Jaguaré, com fácil acesso 
 Excelente oportunidade em ótima localização!
         </div>
 
-        <div class="section-title">Galeria de Fotos (Clique para Ampliar)</div>
+        <div class="section-title">Galeria de Fotos (Clique para Ampliar e Arrastar)</div>
         <div class="gallery-grid">
             
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_01.JPG" alt="Foto Destaque"><div class="gallery-caption">Foto Principal</div></div>
@@ -189,7 +248,7 @@ Excelente oportunidade em ótima localização!
          </div>
 
         <div class="section-title">Mapa de Acesso</div>
-        <div class="map-section-box" onclick="abrirModalComImagem('images/Sem título.png')">
+        <div class="map-section-box" id="mapaBox">
             <img src="images/Sem título.png" alt="Mapa de Acesso ao Imóvel">
             <p style="color: var(--text-light); font-size: 0.95rem;">Esquema de localização com acesso facilitado pelas ruas Catalunha e Barão de Antonina.</p>
         </div>
@@ -197,39 +256,112 @@ Excelente oportunidade em ótima localização!
         <div class="cta-section">
             <h2>Gostou deste imóvel?</h2>
             <p style="margin-bottom: 25px;">Entre em contato direto com o proprietário para mais informações ou visitas.</p>
-            <a href="https://wa.me/5511989239127?text=Olá!%20Vi%20o%20anúncio%20das%20casas%20no%20Jaguaré%20por%20R$%20145.000%20e%20gostaria%20de%20mais%20informações." class="whatsapp-btn" target="_blank">
+            <a href="https://wa.me/5511999999999?text=Olá!%20Vi%20o%20anúncio%20das%20casas%20no%20Jaguaré%20por%20R$%20145.000%20e%20gostaria%20de%20mais%20informações." class="whatsapp-btn" target="_blank">
                 Falar no WhatsApp
             </a>
         </div>
     </div>
 
-    <div id="meuModal" class="modal" onclick="fecharModal()">
-        <span class="close-modal" onclick="fecharModal()">&times;</span>
-        <img class="modal-content" id="imgModal">
+    <!-- --- NOVO COMPONENTE DE SLIDE (MODAL MULTI-FOTOS) --- -->
+    <div id="meuModal" class="modal">
+        <span class="close-modal" id="fecharBtn">&times;</span>
+        <div class="nav-btn prev-btn" id="voltarBtn">&#10094;</div>
+        <div class="nav-btn next-btn" id="avancarBtn">&#10095;</div>
+        
+        <div class="modal-wrapper" id="modalWrapper">
+            <img class="modal-content" id="imgModal" src="">
+            <div class="photo-counter" id="contadorFotos">1 / 1</div>
+        </div>
     </div>
 
     <footer>
         <p>Anúncio Particular &copy; 2026</p>
     </footer>
 
+    <!-- --- PROGRAMAÇÃO DO SLIDER E SUPORTE A ARRASTAR (TOUCH) --- -->
     <script>
         const modal = document.getElementById("meuModal");
         const imgModal = document.getElementById("imgModal");
+        const contador = document.getElementById("contadorFotos");
+        
+        // Mapeia todas as imagens da galeria + imagem do mapa
+        const imagensElementos = Array.from(document.querySelectorAll('.gallery-item img'));
+        const mapaImg = document.querySelector('#mapaBox img');
+        if (mapaImg) imagensElementos.push(mapaImg);
+        
+        const listaFontes = imagensElementos.map(img => img.src);
+        let indiceAtual = 0;
 
-        document.querySelectorAll('.gallery-item img').forEach(img => {
+        // Abre o modal na imagem selecionada
+        imagensElementos.forEach((img, index) => {
             img.addEventListener('click', (e) => {
                 e.stopPropagation();
-                abrirModalComImagem(img.src);
+                abrirSlide(index);
             });
         });
+        
+        // Configura o clique no box do mapa também
+        document.getElementById('mapaBox').addEventListener('click', () => {
+            abrirSlide(listaFontes.length - 1);
+        });
 
-        function abrirModalComImagem(src) {
+        function abrirSlide(index) {
             modal.style.display = "block";
-            imgModal.src = src;
+            atualizarImagem(index);
         }
 
-        function fecharModal() {
-            modal.style.display = "none";
+        function atualizarImagem(index) {
+            if (index < 0) index = listaFontes.length - 1;
+            if (index >= listaFontes.length) index = 0;
+            indiceAtual = index;
+            imgModal.src = listaFontes[indiceAtual];
+            contador.innerText = `${indiceAtual + 1} / ${listaFontes.length}`;
+        }
+
+        // Funções de controle
+        function proximaFoto() { atualizarImagem(indiceAtual + 1); }
+        function fotoAnterior() { atualizarImagem(indiceAtual - 1); }
+        function fecharModal() { modal.style.display = "none"; }
+
+        // Cliques nos botões fixos
+        document.getElementById("avancarBtn").addEventListener("click", (e) => { e.stopPropagation(); proximaFoto(); });
+        document.getElementById("voltarBtn").addEventListener("click", (e) => { e.stopPropagation(); fotoAnterior(); });
+        document.getElementById("fecharBtn").addEventListener("click", fecharModal);
+        
+        // Fecha clicando no fundo preto
+        document.getElementById("modalWrapper").addEventListener("click", (e) => {
+            if(e.target === document.getElementById("modalWrapper")) fecharModal();
+        });
+
+        // Controle por Teclado (Computador)
+        document.addEventListener("keydown", (e) => {
+            if (modal.style.display === "block") {
+                if (e.key === "ArrowRight") proximaFoto();
+                if (e.key === "ArrowLeft") fotoAnterior();
+                if (e.key === "Escape") fecharModal();
+            }
+        });
+
+        // --- SISTEMA SWIPE (ARRASTAR COM O DEDO NO CELULAR) ---
+        let toqueInicioX = 0;
+        let toqueFimX = 0;
+
+        document.getElementById("modalWrapper").addEventListener("touchstart", (e) => {
+            toqueInicioX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        document.getElementById("modalWrapper").addEventListener("touchend", (e) => {
+            toqueFimX = e.changedTouches[0].screenX;
+            analisarGesto();
+        }, {passive: true});
+
+        function analisarGesto() {
+            const limiteDistancia = 50; // distância mínima para considerar o arrasto
+            if (toqueInicioX - toqueFimX > limiteDistancia) {
+                proximaFoto(); // Arrastou para a esquerda -> Próxima
+            } else if (toqueFimX - toqueInicioX > limiteDistancia) {
+                fotoAnterior(); // Arrastou para a direita -> Anterior
+            }
         }
     </script>
 
