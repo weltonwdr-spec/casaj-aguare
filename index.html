@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casa à Venda No Jaguaré. São 2 Casas Independentes com Aproximadamente 65 M2 Cada</title>
+    <title>Casa à Venda No Jaguaré. São 2 Casas Independentes Com Aproximadamente 65 M2 Cada</title>
     <style>
         :root {
             --primary: #1a365d;
@@ -49,23 +49,79 @@
         
         .section-title { color: var(--primary); font-size: 1.6rem; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
         
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .gallery-item { background: white; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .gallery-item img { width: 100%; height: 220px; object-fit: cover; display: block; transition: transform 0.3s; }
-        .gallery-item img:hover { transform: scale(1.03); }
+        .gallery-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+            gap: 20px; 
+            margin-bottom: 40px; 
+        }
+        .gallery-item { 
+            background: white; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+        .gallery-item img { 
+            width: 100%; 
+            height: auto; 
+            max-height: 380px; 
+            object-fit: contain; 
+            background: #f1f5f9; 
+            display: block; 
+            transition: transform 0.2s; 
+        }
+        .gallery-item img:hover { transform: scale(1.02); }
         
-        /* Estilo focado em destacar mapas ou plantas inteiras na tela */
-        .map-section-box { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; text-align: center; margin-bottom: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .gallery-caption { padding: 8px; font-size: 0.85rem; color: var(--text-light); text-align: center; background: #fff; border-top: 1px solid #f1f5f9; }
+        
+        .map-section-box { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; text-align: center; margin-bottom: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); cursor: pointer; }
         .map-section-box img { max-width: 100%; height: auto; max-height: 450px; border-radius: 6px; display: block; margin: 0 auto 15px auto; }
         
-        .gallery-item.ajustar img { object-fit: contain; background: #fff; padding: 10px; }
-        .gallery-caption { padding: 8px; font-size: 0.85rem; color: var(--text-light); text-align: center; background: #fff; border-top: 1px solid #f1f5f9; }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            padding-top: 40px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+        }
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: auto;
+            max-width: 90%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 4px;
+            animation: zoom 0.2s;
+        }
+        @keyframes zoom {
+            from {transform:scale(0.9)} 
+            to {transform:scale(1)}
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
         
         .cta-section { background: linear-gradient(135deg, #1a365d 0%, #2a4365 100%); color: white; text-align: center; padding: 40px 20px; border-radius: 8px; margin-bottom: 40px; }
         .whatsapp-btn { display: inline-flex; align-items: center; background-color: var(--success); color: white; text-decoration: none; padding: 16px 32px; font-size: 1.2rem; font-weight: bold; border-radius: 50px; box-shadow: 0 10px 15px -3px rgba(37, 211, 102, 0.4); transition: transform 0.2s; }
         .whatsapp-btn:hover { transform: scale(1.02); }
         footer { text-align: center; padding: 40px 20px; color: var(--text-light); font-size: 0.9rem; border-top: 1px solid #e2e8f0; }
-        @media (max-width: 600px) { header h1 { font-size: 1.6rem; } .price-tag { font-size: 1.4rem; } .whatsapp-btn { width: 100%; justify-content: center; } }
+        @media (max-width: 600px) { header h1 { font-size: 1.6rem; } .price-tag { font-size: 1.4rem; } .whatsapp-btn { width: 100%; justify-content: center; } .close-modal { right: 20px; top: 10px; } }
     </style>
 </head>
 <body>
@@ -77,30 +133,28 @@
 
     <div class="container">
         
-        <h2 class="section-title">?? Detalhes do Imóvel</h2>
+        <div class="section-title">Detalhes do Imóvel</div>
         <div class="descricao-container">
-Casa à venda na comunidade Jaguaré. O imóvel conta com duas casas independentes, cada uma com aproximadamente 65 m²
+Casa à venda na comunidade Jaguaré. O imóvel conta com duas casas independentes, cada uma com aproximadamente 65 m²[cite: 1]
 
-A casa térrea conta com sala integrada à cozinha, 3 quartos, sendo 1 suíte, além de banheiro social.
+A casa térrea conta com sala integrada à cozinha, 3 quartos, sendo 1 suíte, além de banheiro social.[cite: 1]
 
-A casa superior possui 2 quartos, cozinha, pequeno escritório, ampla área de serviço e banheiro.
+A casa superior possui 2 quartos, cozinha, pequeno escritório, ampla área de serviço e banheiro.[cite: 1]
 
-Os 3 banheiros possuem chuveiro.
+Os 3 banheiros possuem chuveiro.[cite: 1]
 
-Excelente localização, a poucos minutos da Estação Jaguaré, Parque Villa-Lobos, Universidade de São Paulo (Portão 2) e CEAGESP.
+Excelente localização, a poucos minutos da Estação Jaguaré, Parque Villa-Lobos, Universidade de São Paulo (Portão 2) e CEAGESP.[cite: 1]
 
-O imóvel está localizado na Viela Pe. Cícero, no Jaguaré, com fácil acesso às ruas Catalunha e Barão de Antonina.
+O imóvel está localizado na Viela Pe. Cícero, no Jaguaré, com fácil acesso às ruas Catalunha e Barão de Antonina.[cite: 1]
 
-Excelente oportunidade em ótima localização!
+Excelente oportunidade em ótima localização![cite: 1]
         </div>
 
-        <h2 class="section-title">?? Galeria de Fotos</h2>
+        <div class="section-title">Galeria de Fotos (Clique para Ampliar)</div>
         <div class="gallery-grid">
             
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_01.png" alt="Foto 1"><div class="gallery-caption">Foto 01</div></div>
-            
-            <div class="gallery-item ajustar"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_02.jpg" alt="Foto 2 - Planta Baixa"><div class="gallery-caption">Foto 02 - Planta Baixa</div></div>
-            
+            <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_02.jpg" alt="Foto 2 - Planta"><div class="gallery-caption">Foto 02 - Planta Baixa</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_03.jpg" alt="Foto 3"><div class="gallery-caption">Foto 03</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_04.jpg" alt="Foto 4"><div class="gallery-caption">Foto 04</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_05.jpg" alt="Foto 5"><div class="gallery-caption">Foto 05</div></div>
@@ -110,42 +164,66 @@ Excelente oportunidade em ótima localização!
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_09.jpg" alt="Foto 9"><div class="gallery-caption">Foto 09</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_10.jpg" alt="Foto 10"><div class="gallery-caption">Foto 10</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_11.jpg" alt="Foto 11"><div class="gallery-caption">Foto 11</div></div>
-            
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_12.png" alt="Foto 12"><div class="gallery-caption">Foto 12</div></div>
-            
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_13.jpg" alt="Foto 13"><div class="gallery-caption">Foto 13</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_14.jpg" alt="Foto 14"><div class="gallery-caption">Foto 14</div></div>
-            <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_15.jpg" alt="Foto 15"><div class="gallery-caption">Foto 15</div></div>
-            <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_16.jpg" alt="Foto 16"><div class="gallery-caption">Foto 16</div></div>
+            
+            <!-- As fotos antigas 15 e 16 foram removidas daqui para eliminar os espaços em branco -->
+            
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_17.jpg" alt="Foto 17"><div class="gallery-caption">Foto 17</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_18.jpg" alt="Foto 18"><div class="gallery-caption">Foto 18</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_19.jpg" alt="Foto 19"><div class="gallery-caption">Foto 19</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_20.jpg" alt="Foto 20"><div class="gallery-caption">Foto 20</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_21.jpg" alt="Foto 21"><div class="gallery-caption">Foto 21</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_22.jpg" alt="Foto 22"><div class="gallery-caption">Foto 22</div></div>
-            
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_23.png" alt="Foto 23"><div class="gallery-caption">Foto 23</div></div>
 
          </div>
 
-        <h2 class="section-title">?? Mapa de Acesso</h2>
-        <div class="map-section-box">
+        <div class="section-title">Mapa de Acesso</div>
+        <div class="map-section-box" onclick="abrirModalComImagem('images/Sem título.png')">
             <img src="images/Sem título.png" alt="Mapa de Acesso ao Imóvel">
-            <p style="color: var(--text-light); font-size: 0.95rem;">Esquema de localização com acesso facilitado pelas ruas Catalunha e Barão de Antonina.</p>
+            <p style="color: var(--text-light); font-size: 0.95rem;">Esquema de localização com acesso facilitado pelas ruas Catalunha e Barão de Antonina.[cite: 1]</p>
         </div>
 
         <div class="cta-section">
             <h2>Gostou deste imóvel?</h2>
             <p style="margin-bottom: 25px;">Entre em contato direto com o proprietário para mais informações ou visitas.</p>
-            <a href="https://wa.me/5511989239127?text=Olá!%20Vi%20o%20anúncio%20das%20casas%20no%20Jaguaré%20por%20R$%20145.000%20e%20gostaria%20de%20mais%20informações." class="whatsapp-btn" target="_blank">
-                ?? Falar no WhatsApp
+            <a href="https://wa.me/5511999999999?text=Olá!%20Vi%20o%20anúncio%20das%20casas%20no%20Jaguaré%20por%20R$%20145.000%20e%20gostaria%20de%20mais%20informações." class="whatsapp-btn" target="_blank">
+                Falar no WhatsApp
             </a>
         </div>
+    </div>
+
+    <div id="meuModal" class="modal" onclick="fecharModal()">
+        <span class="close-modal" onclick="fecharModal()">&times;</span>
+        <img class="modal-content" id="imgModal">
     </div>
 
     <footer>
         <p>Anúncio Particular &copy; 2026</p>
     </footer>
+
+    <script>
+        const modal = document.getElementById("meuModal");
+        const imgModal = document.getElementById("imgModal");
+
+        document.querySelectorAll('.gallery-item img').forEach(img => {
+            img.addEventListener('click', (e) => {
+                e.stopPropagation();
+                abrirModalComImagem(img.src);
+            });
+        });
+
+        function abrirModalComImagem(src) {
+            modal.style.display = "block";
+            imgModal.src = src;
+        }
+
+        function fecharModal() {
+            modal.style.display = "none";
+        }
+    </script>
 
 </body>
 </html>
