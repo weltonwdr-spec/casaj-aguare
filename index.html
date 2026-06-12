@@ -76,6 +76,15 @@
         }
         .gallery-item img:hover { transform: scale(1.02); }
         
+        /* Regra exclusiva para a Foto 05 horizontal se ajustar e ocupar mais espaço */
+        .gallery-item.horizontal {
+            grid-column: span 2;
+        }
+        .gallery-item.horizontal img {
+            max-height: 380px;
+            object-fit: cover; /* Preenche o espaço horizontal perfeitamente */
+        }
+        
         .gallery-caption { padding: 8px; font-size: 0.85rem; color: var(--text-light); text-align: center; background: #fff; border-top: 1px solid #f1f5f9; }
         
         .map-section-box { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; text-align: center; margin-bottom: 40px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); cursor: pointer; }
@@ -121,7 +130,7 @@
         .whatsapp-btn { display: inline-flex; align-items: center; background-color: var(--success); color: white; text-decoration: none; padding: 16px 32px; font-size: 1.2rem; font-weight: bold; border-radius: 50px; box-shadow: 0 10px 15px -3px rgba(37, 211, 102, 0.4); transition: transform 0.2s; }
         .whatsapp-btn:hover { transform: scale(1.02); }
         footer { text-align: center; padding: 40px 20px; color: var(--text-light); font-size: 0.9rem; border-top: 1px solid #e2e8f0; }
-        @media (max-width: 600px) { header h1 { font-size: 1.6rem; } .price-tag { font-size: 1.4rem; } .whatsapp-btn { width: 100%; justify-content: center; } .close-modal { right: 20px; top: 10px; } }
+        @media (max-width: 600px) { header h1 { font-size: 1.6rem; } .price-tag { font-size: 1.4rem; } .whatsapp-btn { width: 100%; justify-content: center; } .close-modal { right: 20px; top: 10px; } .gallery-item.horizontal { grid-column: auto; } }
     </style>
 </head>
 <body>
@@ -135,19 +144,19 @@
         
         <div class="section-title">Detalhes do Imóvel</div>
         <div class="descricao-container">
-Casa à venda na comunidade Jaguaré. O imóvel conta com duas casas independentes, cada uma com aproximadamente 65 m²[cite: 1]
+Casa à venda na comunidade Jaguaré. O imóvel conta com duas casas independentes, cada uma com aproximadamente 65 m²
 
-A casa térrea conta com sala integrada à cozinha, 3 quartos, sendo 1 suíte, além de banheiro social.[cite: 1]
+A casa térrea conta com sala integrada à cozinha, 3 quartos, sendo 1 suíte, além de banheiro social.
 
-A casa superior possui 2 quartos, cozinha, pequeno escritório, ampla área de serviço e banheiro.[cite: 1]
+A casa superior possui 2 quartos, cozinha, pequeno escritório, ampla área de serviço e banheiro.
 
-Os 3 banheiros possuem chuveiro.[cite: 1]
+Os 3 banheiros possuem chuveiro.
 
-Excelente localização, a poucos minutos da Estação Jaguaré, Parque Villa-Lobos, Universidade de São Paulo (Portão 2) e CEAGESP.[cite: 1]
+Excelente localização, a poucos minutos da Estação Jaguaré, Parque Villa-Lobos, Universidade de São Paulo (Portão 2) e CEAGESP.
 
-O imóvel está localizado na Viela Pe. Cícero, no Jaguaré, com fácil acesso às ruas Catalunha e Barão de Antonina.[cite: 1]
+O imóvel está localizado na Viela Pe. Cícero, no Jaguaré, com fácil acesso às ruas Catalunha e Barão de Antonina.
 
-Excelente oportunidade em ótima localização![cite: 1]
+Excelente oportunidade em ótima localização!
         </div>
 
         <div class="section-title">Galeria de Fotos (Clique para Ampliar)</div>
@@ -157,7 +166,10 @@ Excelente oportunidade em ótima localização![cite: 1]
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_02.jpg" alt="Foto 2 - Planta"><div class="gallery-caption">Foto 02 - Planta Baixa</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_03.jpg" alt="Foto 3"><div class="gallery-caption">Foto 03</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_04.jpg" alt="Foto 4"><div class="gallery-caption">Foto 04</div></div>
-            <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_05.jpg" alt="Foto 5"><div class="gallery-caption">Foto 05</div></div>
+            
+            <!-- Foto 05 horizontal configurada exclusivamente -->
+            <div class="gallery-item horizontal"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_05.jpg" alt="Foto 5"><div class="gallery-caption">Foto 05</div></div>
+            
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_06.jpg" alt="Foto 6"><div class="gallery-caption">Foto 06</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_07.jpg" alt="Foto 7"><div class="gallery-caption">Foto 07</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_08.jpg" alt="Foto 8"><div class="gallery-caption">Foto 08</div></div>
@@ -167,9 +179,6 @@ Excelente oportunidade em ótima localização![cite: 1]
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_12.png" alt="Foto 12"><div class="gallery-caption">Foto 12</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_13.jpg" alt="Foto 13"><div class="gallery-caption">Foto 13</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_14.jpg" alt="Foto 14"><div class="gallery-caption">Foto 14</div></div>
-            
-            <!-- As fotos antigas 15 e 16 foram removidas daqui para eliminar os espaços em branco -->
-            
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_17.jpg" alt="Foto 17"><div class="gallery-caption">Foto 17</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_18.jpg" alt="Foto 18"><div class="gallery-caption">Foto 18</div></div>
             <div class="gallery-item"><img src="images/Casa_Jaguaré_São_Paulo_USP_Trem_19.jpg" alt="Foto 19"><div class="gallery-caption">Foto 19</div></div>
@@ -183,13 +192,13 @@ Excelente oportunidade em ótima localização![cite: 1]
         <div class="section-title">Mapa de Acesso</div>
         <div class="map-section-box" onclick="abrirModalComImagem('images/Sem título.png')">
             <img src="images/Sem título.png" alt="Mapa de Acesso ao Imóvel">
-            <p style="color: var(--text-light); font-size: 0.95rem;">Esquema de localização com acesso facilitado pelas ruas Catalunha e Barão de Antonina.[cite: 1]</p>
+            <p style="color: var(--text-light); font-size: 0.95rem;">Esquema de localização com acesso facilitado pelas ruas Catalunha e Barão de Antonina.</p>
         </div>
 
         <div class="cta-section">
             <h2>Gostou deste imóvel?</h2>
             <p style="margin-bottom: 25px;">Entre em contato direto com o proprietário para mais informações ou visitas.</p>
-            <a href="https://wa.me/55119989239127?text=Olá!%20Vi%20o%20anúncio%20das%20casas%20no%20Jaguaré%20por%20R$%20145.000%20e%20gostaria%20de%20mais%20informações." class="whatsapp-btn" target="_blank">
+            <a href="https://wa.me/5511989239127?text=Olá!%20Vi%20o%20anúncio%20das%20casas%20no%20Jaguaré%20por%20R$%20145.000%20e%20gostaria%20de%20mais%20informações." class="whatsapp-btn" target="_blank">
                 Falar no WhatsApp
             </a>
         </div>
